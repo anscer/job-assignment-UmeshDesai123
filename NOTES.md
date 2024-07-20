@@ -1,5 +1,5 @@
 Required Environment variables to run the project
-MONGO_URI = 'mongodb+srv://<usernamr>:<password>@cluster0.vvbvxq8.mongodb.net/<databaseName>'
+MONGO_URI = 'mongodb+srv://{usernamr}:{password}@cluster0.vvbvxq8.mongodb.net/{databaseName}'
 SECRET_KEY = 'anyString'
 
 Commands to run the project
