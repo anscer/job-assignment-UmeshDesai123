@@ -1,0 +1,385 @@
+openapi: 3.0.0
+info:
+  title: User API
+  version: 1.0.0
+  description: API for user and state management
+servers:
+  - url: http://localhost:8001/
+
+tags:
+  - name: User Controller
+    description: Endpoints related to user operations
+  - name: State Controller
+    description: Endpoints related to state operations
+paths:
+  /user:
+    post:
+      tags:
+        - User Controller
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Umesh
+                email:
+                  type: string
+                  format: email
+                  example: umesh@example.com
+                password:
+                  type: string
+                  format: password
+                  example: Passw0rd!
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 60d5ec49b644b922a0c8d4e6
+                  name:
+                    type: string
+                    example: Umesh
+                  email:
+                    type: string
+                    format: email
+                    example: umesh@example.com
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Validation error
+  /user/login:
+    post:
+      tags:
+        - User Controller
+      summary: Log in a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: umesh@example.com
+                password:
+                  type: string
+                  format: password
+                  example: Passw0rd!
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 60d5ec49b644b922a0c8d4e6
+                  name:
+                    type: string
+                    example: Umesh
+                  email:
+                    type: string
+                    format: email
+                    example: umesh@example.com
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+                example: User not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+  /user/logout:
+    post:
+      tags:
+        - User Controller
+      summary: Log out a user
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: logout successful
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Logout unsuccessful
+                  error:
+                    type: string
+                    example: Error message
+  /state:
+    post:
+      tags:
+        - State Controller
+      summary: Create a new state
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: state1
+                description:
+                  type: string
+                  example: desc1
+                status:
+                  type: string
+                  example: status1
+      responses:
+        '201':
+          description: State created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 669aabf3842cdf1b32e0413f
+                  name:
+                    type: string
+                    example: state1
+                  description:
+                    type: string
+                    example: desc1
+                  status:
+                    type: string
+                    example: status1
+                  createdBy:
+                    type: string
+                    example: 669aa11158c0cc6a1e8d2ca5
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: 2024-07-19T18:09:55.014Z
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Validation error
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+  /state/all-states:
+    get:
+      tags:
+        - State Controller
+      summary: Retrieve all states
+      responses:
+        '200':
+          description: Successful retrieval of states
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: 669aabf3842cdf1b32e0413f
+                    name:
+                      type: string
+                      example: state1
+                    description:
+                      type: string
+                      example: desc1
+                    status:
+                      type: string
+                      example: status1
+                    createdBy:
+                      type: string
+                      example: 669aa11158c0cc6a1e8d2ca5
+                    createdAt:
+                      type: string
+                      format: date-time
+                      example: 2024-07-19T18:09:55.014Z
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+  /state/update:
+    put:
+      tags:
+        - State Controller
+      summary: Update an existing state
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: 669aabf3842cdf1b32e0413f
+                name:
+                  type: string
+                  example: updatedState
+                description:
+                  type: string
+                  example: updatedDesc
+                status:
+                  type: string
+                  example: updatedStatus
+      responses:
+        '200':
+          description: State updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 669aabf3842cdf1b32e0413f
+                  name:
+                    type: string
+                    example: updatedState
+                  description:
+                    type: string
+                    example: updatedDesc
+                  status:
+                    type: string
+                    example: updatedStatus
+                  createdBy:
+                    type: string
+                    example: 669aa11158c0cc6a1e8d2ca5
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: 2024-07-19T18:09:55.014Z
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    example: 2024-07-20T18:09:55.014Z
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Validation error
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+                example: You are unauthorized to update state
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+  /state/{id}:
+    delete:
+      tags:
+        - State Controller
+      summary: Delete a state
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 669aabf3842cdf1b32e0413f
+      responses:
+        '204':
+          description: State deleted successfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Valid state id required
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+                example: You are unauthorized to delete state
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
